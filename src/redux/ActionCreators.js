@@ -24,7 +24,6 @@ export const fetchWeather = (city) => dispatch => {
                 var error = new Error('Error' + response.status + ': '+ response.statusText);
                 error.response = response;
                 throw error;
-
             }
         },
         error => {
@@ -32,8 +31,7 @@ export const fetchWeather = (city) => dispatch => {
             throw errorMessage;
         })
         .then(data => {
-            console.log(data);
-            dispatch(loadWeather(data))
+            dispatch(loadWeather(data.data[0]))
         })
         .catch(err => dispatch(weatherFailed(err.errorMessage)))
 }

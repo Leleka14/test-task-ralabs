@@ -1,6 +1,6 @@
 import * as ActionTypes from '../ActionTypes';
 
-export const data = (state = {
+export const Data = (state = {
         isLoading: false,
         errorMessage: null,
         weather: null

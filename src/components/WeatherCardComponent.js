@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import { Loading } from './LoadingComponent';
 
 const WeatherCardComponent = (props) => {
 
     const RenderWeatherCard = () => {
-        if(props.data !== null) {
+        if(props.isLoading){
+            return <Loading/>
+        }
+
+        if(props.weather !== null) {
             return(
                 <div>Weather</div>
             )

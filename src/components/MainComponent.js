@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, FormGroup, Input, Row } from 'reactstrap';
+import { Button, Form, Input, Row } from 'reactstrap';
 import HeaderComponent from './HeaderComponent';
 import WeatherCardComponent from './WeatherCardComponent';
 import { connect } from 'react-redux'
 import { fetchWeather } from '../redux/ActionCreators';
+import { Control, LocalForm } from 'react-redux-form';
 
 const mapStateToProps = state => {
     return{
-        data: state.data
+        data: state
     }
 }
 
@@ -17,58 +18,24 @@ const mapDispatchToProps = dispatch => ({
 
 const MainComponent = (props) => {
 
-    const [city, setCity] = useState('');
-
-    const [cityInput, setCityInput] = useState('');
-
-    useEffect(() => {
-        if(city !== ''){
-            props.fetchWeather(city);
+    const submitInputHandler = (value) => {
+        if(value !== ''){
+            props.fetchWeather(value.city)
         }
-    }, [city])
-
-    
-
-    const cityInputChangeHandler = event => {
-        setCityInput(event.target.value)
     }
-
-    const searchButtonClickHandler = (event) => {
-        if(cityInput !== ''){
-            setCity(cityInput);
-            setCityInput('');
-        }
-        event.preventDefault();
-    }
-
-    // let city = 'London';
-    // let APIkey = 'e672b55a6f5d42bf88dd75621777dcaf'
-    // const loadData = () => {
-    //     return fetch(`https://api.weatherbit.io/v2.0/current?city=${city}&key=${APIkey}`, {
-    //         headers : { 
-    //             'Content-Type': 'application/json',
-    //             'Accept': 'application/json'
-    //         }
-    //     })
-    //     .then(response => {
-    //         if(response.status === 200) return response.json()
-    //     })
-    //     .then(data => console.log(data))
-    // }
-    // loadData()
 
     return(
         <div className="container">
             <HeaderComponent/>
-            <Form onSubmit={searchButtonClickHandler}>
-                <Row>
-                    <Input placeholder="Type city" onChange={cityInputChangeHandler} value={cityInput} className="col-10 col-md-4"/>
+            <LocalForm onSubmit={value => submitInputHandler(value)}>
+                <Row className="form-group">
+                    <Control.text placeholder="Type city" className="col-10 col-md-4 form-control" model=".city"/>
                     <Button type="submit" className="col-2 col-md-1" color="success"><i className="fa fa-lg fa-search"></i><sub>...</sub></Button>
                 </Row>
-            </Form>
-            <WeatherCardComponent/>
+            </LocalForm>
+            <WeatherCardComponent isLoading={props.data.isLoading} weather={props.data.weather}/>
         </div>
     )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainComponent);
+export default (connect(mapStateToProps, mapDispatchToProps)(MainComponent));
