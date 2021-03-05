@@ -1,21 +1,44 @@
-import React, { useState } from 'react';
-import { Button, Input, Row } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Form, FormGroup, Input, Row } from 'reactstrap';
 import HeaderComponent from './HeaderComponent';
 import WeatherCardComponent from './WeatherCardComponent';
+import { connect } from 'react-redux'
+import { fetchWeather } from '../redux/ActionCreators';
 
-const MainComponent = () => {
+const mapStateToProps = state => {
+    return{
+        data: state.data
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    fetchWeather: (city) => dispatch(fetchWeather(city))
+})
+
+const MainComponent = (props) => {
+
+    const [city, setCity] = useState('');
 
     const [cityInput, setCityInput] = useState('');
+
+    useEffect(() => {
+        if(city !== ''){
+            props.fetchWeather(city);
+        }
+    }, [city])
+
+    
 
     const cityInputChangeHandler = event => {
         setCityInput(event.target.value)
     }
 
-    const searchButtonClickHandler = e => {
+    const searchButtonClickHandler = (event) => {
         if(cityInput !== ''){
+            setCity(cityInput);
             setCityInput('');
-
         }
+        event.preventDefault();
     }
 
     // let city = 'London';
@@ -37,13 +60,15 @@ const MainComponent = () => {
     return(
         <div className="container">
             <HeaderComponent/>
-            <Row>
-                <Input placeholder="Type city" onChange={cityInputChangeHandler} value={cityInput} className="col-10 col-md-4"/>
-                <Button onClick={searchButtonClickHandler} className="col-2 col-md-1" color="success"><i className="fa fa-lg fa-search"></i><sub>...</sub></Button>
-            </Row>
+            <Form onSubmit={searchButtonClickHandler}>
+                <Row>
+                    <Input placeholder="Type city" onChange={cityInputChangeHandler} value={cityInput} className="col-10 col-md-4"/>
+                    <Button type="submit" className="col-2 col-md-1" color="success"><i className="fa fa-lg fa-search"></i><sub>...</sub></Button>
+                </Row>
+            </Form>
             <WeatherCardComponent/>
         </div>
     )
 }
 
-export default MainComponent;
+export default connect(mapStateToProps, mapDispatchToProps)(MainComponent);

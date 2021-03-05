@@ -7,7 +7,7 @@ export const loadWeather = data => ({
 })
 
 export const weatherIsLoading = () => ({
-    type: ActionTypes.LOAD_WEATHER
+    type: ActionTypes.WEATHER_ISLOADING
 })
 
 export const weatherFailed = error => ({
@@ -16,9 +16,24 @@ export const weatherFailed = error => ({
 })
 
 export const fetchWeather = (city) => dispatch => {
-    dispatch(weatherIsLoading())
+    dispatch(weatherIsLoading(true));
     return fetch(`${baseUrl.weatherAPI}?city=${city}&key=${baseUrl.weatherAPIKey}`)
         .then(response => {
-            if(response.status === 200)
+            if(response.ok) return response.json();
+            else{
+                var error = new Error('Error' + response.status + ': '+ response.statusText);
+                error.response = response;
+                throw error;
+
+            }
+        },
+        error => {
+            var errorMessage = new Error(error.errorMessage);
+            throw errorMessage;
         })
+        .then(data => {
+            console.log(data);
+            dispatch(loadWeather(data))
+        })
+        .catch(err => dispatch(weatherFailed(err.errorMessage)))
 }
