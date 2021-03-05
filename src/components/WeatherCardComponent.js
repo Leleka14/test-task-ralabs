@@ -1,5 +1,6 @@
 import React from 'react';
 import { Loading } from './LoadingComponent';
+import { weatherIcon } from '../redux/baseUrl'
 
 const WeatherCardComponent = (props) => {
 
@@ -9,8 +10,11 @@ const WeatherCardComponent = (props) => {
         }
 
         if(props.weather !== null) {
+            const imgSrc = `${weatherIcon}${props.weather.weather.icon}.png`
             return(
-                <div>Weather</div>
+                <div className="card">
+                    <img alt="Not Found" width="200px" src={imgSrc}/>
+                </div>
             )
         }
         else{

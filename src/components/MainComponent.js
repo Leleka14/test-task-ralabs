@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Row } from 'reactstrap';
+import React from 'react';
+import { Button, Row } from 'reactstrap';
 import HeaderComponent from './HeaderComponent';
 import WeatherCardComponent from './WeatherCardComponent';
 import { connect } from 'react-redux'
@@ -20,7 +20,7 @@ const MainComponent = (props) => {
 
     const submitInputHandler = (value) => {
         if(value !== ''){
-            props.fetchWeather(value.city)
+            props.fetchWeather(value.city);
         }
     }
 
