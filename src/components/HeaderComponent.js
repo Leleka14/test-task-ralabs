@@ -2,7 +2,7 @@ import React from 'react'
  
 const HeaderComponent = () => {
     return(
-        <h2>Weather Forecast</h2>
+        <h2 className="header">Weather Portal</h2>
     )
 }
 

@@ -31,7 +31,7 @@ export const fetchWeather = (city) => dispatch => {
             throw errorMessage;
         })
         .then(data => {
-            dispatch(loadWeather(data.data[0]))
+            dispatch(loadWeather(data))
         })
         .catch(err => dispatch(weatherFailed(err.errorMessage)))
 }
