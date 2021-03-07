@@ -7,14 +7,14 @@ import { fetchWeather } from '../redux/ActionCreators';
 import WeatherCardComponent from './WeatherCardComponent';
 import { Loading } from './LoadingComponent';
 
-
+//function that passes state from store to props
 const mapStateToProps = state => {
-    console.log(state)
     return{
         twoWeekWeather: state.Data
     }
 }
 
+//Function that allows us to call actions to form state 
 const mapDispatchToProps = dispatch => ({
     fetchWeather: (city) => dispatch(fetchWeather(city))
 })
@@ -30,6 +30,7 @@ const ForecastComponent = props => {
 
     const [currentCard, setCurrentCard] = useState(0);
 
+    //Hook that executes when props.city is changed
     useEffect(() => {
         if(props.city) props.fetchWeather(props.city)
     }, [props.city]);
@@ -44,10 +45,13 @@ const ForecastComponent = props => {
         if(props.twoWeekWeather.isLoading){
             return <Loading/>
         }
+
+        //Renders weather if it exists
         if(props.twoWeekWeather.weather){
-            console.log()
             const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
             const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
+
+            //Maps through weather array
             const cards = props.twoWeekWeather.weather.data.map((el, id) => {
                 const imgSrc = `${weatherIcon}${el.weather.icon}.png`;
                 

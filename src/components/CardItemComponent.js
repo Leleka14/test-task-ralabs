@@ -3,7 +3,6 @@ import { Row } from 'reactstrap'
 import { weatherIcon } from '../redux/baseUrl';
 
 const CardItemComponent = (props) => {
-    console.log(props)
     const imgSrc = `${weatherIcon}${props.data.weather.icon}.png`;
     return(
         <div className={`menu-item weather-list-element`} key={props.data.ts}>

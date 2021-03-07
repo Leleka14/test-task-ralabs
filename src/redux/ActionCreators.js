@@ -49,7 +49,6 @@ export const fetchCurrentCity = () => dispatch => {
         return fetch(`http://api.positionstack.com/v1/reverse?access_key=29503943e43100352ab460a761bd9a9c&query=${position.coords.latitude},${position.coords.longitude}`)
         .then(response => response.json())
         .then(data => {
-            
             dispatch(loadCurrentCity(data))
         })
     }

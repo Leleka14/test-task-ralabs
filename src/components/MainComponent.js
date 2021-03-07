@@ -6,12 +6,14 @@ import { Control, LocalForm } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { fetchCurrentCity } from '../redux/ActionCreators';
 
+//function that passes state from store to props
 const mapStateToProps = state => {
     return{
         currentCity: state.CurrentCity.currentCity
     }
 }
 
+//Function that allows us to call actions to form state 
 const mapDispatchToProps = dispatch => ({
     fetchCurrentCity: () => dispatch(fetchCurrentCity())
 })
@@ -20,11 +22,12 @@ const MainComponent = (props) => {
 
     const [city, setcity] = useState('');
 
+    //Hook that executes only once after page is rendered to fetch Users, equivalent to componentDidMount
     useEffect(() => {
         props.fetchCurrentCity();
-        
     }, [])
 
+    //Function that helps us to know when only props.currentCity is changed but not all props
     const changeOnlyCurrentCity = useCallback(() => {
         setcity(props.currentCity)
     }, [props.currentCity]);
