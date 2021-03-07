@@ -18,9 +18,7 @@ const mapDispatchToProps = dispatch => ({
 
 const MainComponent = (props) => {
 
-    const [currCity, setCurrCity] = useState(props.currentCity)
-
-
+    const [city, setcity] = useState('');
 
     useEffect(() => {
         props.fetchCurrentCity();
@@ -29,12 +27,11 @@ const MainComponent = (props) => {
 
     const changeOnlyCurrentCity = useCallback(() => {
         setcity(props.currentCity)
-      }, [props.currentCity]);
-      
-      useEffect(() => {
+    }, [props.currentCity]);
+    
+    useEffect(() => {
         changeOnlyCurrentCity(props.currentCity);
-      }, [props.currentCity, changeOnlyCurrentCity]);
-    const [city, setcity] = useState('');
+    }, [props.currentCity, changeOnlyCurrentCity]);
 
     const submitInputHandler = (value) => {
         if(value.city !== ''){
