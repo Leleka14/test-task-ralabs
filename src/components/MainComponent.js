@@ -22,7 +22,7 @@ const MainComponent = (props) => {
 
     const [city, setcity] = useState('');
 
-    //Hook that executes only once after page is rendered to fetch Users, equivalent to componentDidMount
+    //Hook that executes only once after page is rendered to fetch weather, equivalent to componentDidMount
     useEffect(() => {
         props.fetchCurrentCity();
     }, [])
