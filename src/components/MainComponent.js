@@ -1,44 +1,44 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Row } from 'reactstrap';
 import HeaderComponent from './HeaderComponent';
-import WeatherCardComponent from './WeatherCardComponent';
 import ForecastComponent from './ForecastComponent';
-import { connect } from 'react-redux'
-import { fetchWeather } from '../redux/ActionCreators';
 import { Control, LocalForm } from 'react-redux-form';
+import { connect } from 'react-redux';
+import { fetchCurrentCity } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return{
-        data: state
+        currentCity: state.CurrentCity.currentCity
     }
 }
 
 const mapDispatchToProps = dispatch => ({
-    fetchWeather: (city) => dispatch(fetchWeather(city))
+    fetchCurrentCity: () => dispatch(fetchCurrentCity())
 })
 
 const MainComponent = (props) => {
-    let currentLocation = {};
-    
-    const getGeo = (position) => {
-        currentLocation.latitude = position.coords.latitude;
-        currentLocation.longitude = position.coords.longitude;
-    }
 
-    navigator.geolocation.getCurrentPosition(getGeo, console.log);
+    const [currCity, setCurrCity] = useState(props.currentCity)
 
-    const [city, setcity] = useState();
 
-    const [selectedCard, setselectedCard] = useState(null);
 
-    const selectCardHandler = (id) => {
-        setselectedCard(props.data.weather.data[id])
-    }
+    useEffect(() => {
+        props.fetchCurrentCity();
+        
+    }, [])
+
+    const changeOnlyCurrentCity = useCallback(() => {
+        setcity(props.currentCity)
+      }, [props.currentCity]);
+      
+      useEffect(() => {
+        changeOnlyCurrentCity(props.currentCity);
+      }, [props.currentCity, changeOnlyCurrentCity]);
+    const [city, setcity] = useState('');
 
     const submitInputHandler = (value) => {
-        if(value !== ''){
-
-            props.fetchWeather(value.city);
+        if(value.city !== ''){
+            setcity(value.city)
         }
     }
 
@@ -51,10 +51,9 @@ const MainComponent = (props) => {
                     <Button type="submit" className="col-2 col-md-1" color="success"><i className="fa fa-lg fa-search"></i><sub>...</sub></Button>
                 </Row>
             </LocalForm>
-            <ForecastComponent weatherArray={props.data.weather} chooseCard={(id) => selectCardHandler(id)}/>
-            <WeatherCardComponent isLoading={props.data.isLoading} weather={selectedCard}/>
+            <ForecastComponent city={city}/>
         </div>
     )
 }
 
-export default (connect(mapStateToProps, mapDispatchToProps)(MainComponent));
+export default connect(mapStateToProps, mapDispatchToProps)(MainComponent);

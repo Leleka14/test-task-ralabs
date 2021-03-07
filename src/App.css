@@ -1,7 +1,7 @@
 .weather-card{
     border: 2px solid black;
     border-radius: 5px;
-    width: 50%;
+    
 }
 
 .weather-card-main-image{
@@ -14,6 +14,9 @@
     margin: 10px 10px;
 }
 
+.weather-card-main-image-wrapper{
+    text-align: center;
+}
 
 .header{
     font-family: cursive;
@@ -22,15 +25,13 @@
 
 .menu-item {
     padding: 5px 5px;
-    margin: 5px 0px;
+    margin: 5px 10px;
     user-select: none;
     cursor: pointer;
     border: 1px solid lightgray;
     border-radius: 10px;
 }
-.menu-item.active {
-    background-color: silver;
-}   
+
 
 .scroll-menu-arrow {
     padding: 20px;
