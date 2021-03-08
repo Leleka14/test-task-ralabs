@@ -1,6 +1,8 @@
 # Test-Task-Ralabs
 ## This is first version of test task, I've realised that it is not very efficient and comfortable in usage so I rebuilt it without redux and with other layout that is much more pleasing to the eye. Link to it https://github.com/Leleka14/test-task-ralabs2
 
+## Published on https://leleka14.github.io/test-task-ralabs/
+
 ## Table of contents
 * [General info](#general-info)
 * [Getting started](#getting-started)
